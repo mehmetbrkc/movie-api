@@ -65,7 +65,7 @@ router.get('/:director_id', (req, res, next) => {
             $match:
             {
                 '_id': mongoose.Types.ObjectId(req.params.director_id)
-            }  
+            }
         },
         {
             $lookup:
@@ -128,7 +128,7 @@ router.post('/', (req, res) => {
 
     promise.then((director) => {
         res.json({ status: 1 });
-    }).catch ((err) => {
+    }).catch((err) => {
         res.json(err);
     });
 });
@@ -162,7 +162,7 @@ router.put('/:director_id', (req, res, next) => {
         if (!director)
             next({ message: 'The director was not found.', code: 99 });
 
-        res.json({director});
+        res.json({ director });
     }).catch((err) => {
         res.json(err);
     });
