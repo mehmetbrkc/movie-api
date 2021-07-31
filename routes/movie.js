@@ -123,7 +123,7 @@ router.post('/', (req, res, next) => {
     // Yukaridaki yapi yerine asagidaki daha duzgun
     const promise = movie.save();
     promise.then((data) => {
-        res.json({ status: 1 });
+        res.json(data);
     }).catch((err) => {
         res.json(err);
     });
