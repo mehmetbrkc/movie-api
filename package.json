@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "mocha": "mocha ./bin/www",
     "test": "mocha --exit --recursive"
   },
   "dependencies": {
