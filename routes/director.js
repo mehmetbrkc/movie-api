@@ -127,7 +127,7 @@ router.post('/', (req, res) => {
     const promise = director.save();
 
     promise.then((director) => {
-        res.json({ status: 1 });
+        res.json(director);
     }).catch((err) => {
         res.json(err);
     });
@@ -143,7 +143,7 @@ router.delete('/:director_id', (req, res, next) => {
         if (!director)
             next({ message: 'The director was not found.', code: 99 });
 
-        res.json({ status: 'mehmet' });
+        res.json({ status: 1 });
     }).catch((err) => {
         res.json(err);
     });
@@ -162,7 +162,7 @@ router.put('/:director_id', (req, res, next) => {
         if (!director)
             next({ message: 'The director was not found.', code: 99 });
 
-        res.json({ director });
+        res.json(director);
     }).catch((err) => {
         res.json(err);
     });

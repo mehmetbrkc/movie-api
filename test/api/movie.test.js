@@ -1,5 +1,6 @@
 ﻿const chai = require('chai');
 const chaiHttp = require('chai-http');
+const { request } = require('express');
 const should = chai.should();
 const server = require('../../app');
 
@@ -8,6 +9,7 @@ chai.use(chaiHttp);
 let token, movieId;
 
 describe('/api/movies test', () => {
+
     before((done) => {
         chai.request(server)
             .post('/authenticate')
@@ -33,6 +35,7 @@ describe('/api/movies test', () => {
 
     describe('/POST movie', () => {
         it('it should POST a movie', (done) => {
+
             const movie = {
                 title: 'Udemy',
                 category: 'komedi',
@@ -40,6 +43,7 @@ describe('/api/movies test', () => {
                 year: 1950,
                 imdb_score: 8
             };
+
             chai.request(server)
                 .post('/api/movies')
                 .send(movie)
@@ -59,7 +63,7 @@ describe('/api/movies test', () => {
         });
     });
 
-    describe('/GET/:director_id movie', () => {
+    describe('/GET/:movie_id movie', () => {
         it('it should GET a movie by the given id', (done) => {
             chai.request(server)
                 .get('/api/movies/' + movieId)
@@ -78,5 +82,44 @@ describe('/api/movies test', () => {
         });
     });
 
+    describe('/PUT/:movie_id movie', () => {
+        it('it should UPDATE a movie by the given id', (done) => {
 
+            const movie = {
+                title: 'Udemy',
+                category: 'Dram',
+                country: 'Türkiye',
+                year: 1994,
+                imdb_score: 9.9
+            };
+
+            chai.request(server)
+                .put('/api/movies/' + movieId)
+                .send(movie)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.have.property('title').eql(movie.title);
+                    res.body.should.have.property('category').eql(movie.category);
+                    res.body.should.have.property('country').eql(movie.country);
+                    res.body.should.have.property('year').eql(movie.year);
+                    res.body.should.have.property('imdb_score').eql(movie.imdb_score);
+                    done();
+                });
+        });
+    });
+
+    describe('/DELETE/:movie_id movie', () => {
+        it('it should DELETE a movie by the given id', (done) => {
+            chai.request(server)
+                .delete('/api/movies/' + movieId)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql(1);
+                    done();
+                });
+        });
+    });
 });
